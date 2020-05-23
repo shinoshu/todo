@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -20,7 +20,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function App() {
+  const [todoList, setTodoList] = useState<string[]>([]);
   const classes = useStyles();
+
+  const handleSubmit = (event) => {
+    console.log(event);
+    setTodoList((state) => {
+      console.log(state);
+      return [...state, "todo"];
+    });
+  };
 
   return (
     <div className="App">
@@ -28,12 +37,12 @@ function App() {
         <Toolbar></Toolbar>
       </AppBar>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextField className={classes.text} label="タスクを入力してください" />
       </form>
 
       <List>
-        {[0, 1, 2, 3].map((value) => {
+        {todoList.map((value) => {
           const labelId = `checkbox-list-label-${value}`;
 
           return (
@@ -41,7 +50,7 @@ function App() {
               <ListItemIcon>
                 <Checkbox />
               </ListItemIcon>
-              <ListItemText id={labelId} primary="テスト" />
+              <ListItemText id={labelId} primary={value} />
             </ListItem>
           );
         })}
