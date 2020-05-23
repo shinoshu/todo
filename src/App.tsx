@@ -20,15 +20,21 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function App() {
+  const [todo, setTodo] = useState<string>("");
   const [todoList, setTodoList] = useState<string[]>([]);
   const classes = useStyles();
 
   const handleSubmit = (event) => {
-    console.log(event);
     setTodoList((state) => {
-      console.log(state);
-      return [...state, "todo"];
+      return [...state, todo];
     });
+    setTodo("");
+
+    event.preventDefault();
+  };
+
+  const handleInputChange = (event) => {
+    setTodo(event?.target.value);
   };
 
   return (
@@ -38,7 +44,12 @@ function App() {
       </AppBar>
 
       <form onSubmit={handleSubmit}>
-        <TextField className={classes.text} label="タスクを入力してください" />
+        <TextField
+          className={classes.text}
+          label="タスクを入力してください"
+          value={todo}
+          onChange={handleInputChange}
+        />
       </form>
 
       <List>
